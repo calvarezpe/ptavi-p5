@@ -122,36 +122,55 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
 
 12. Vamos a ver más a fondo el intercambio RTP. En Telephony hay una opción RTP. Empecemos mirando los flujos RTP.
  ** ¿Cuántos flujos hay? ¿por qué?
+ 	Hay dos flujos. Uno para el audio y otro para el video.
  ** ¿Cuántos paquetes se pierden?
+ 	Ninguno
  ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
+	1290,48-44
  ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
-
+	Video: mean 153,24 ms max 183,1 ms
+ 	Audio: mean 42,50 ms max 119,64 ms
+	El retardo. Se considera calidad con un jitter menor de 0'5seg, por lo tanto si
 
 13. Elige un paquete RTP de audio. Analiza el flujo de audio en Telephony -> RTP -> Stream Analysis.
  ** ¿Cuánto valen el delta y el jitter para el primer paquete que ha llegado?
+ 	Para el delta vale 0 y para el jitter tambien.
  ** ¿Podemos saber si éste es el primer paquete que nos han enviado?
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
+ 	Hasta el 247
+ ----------------------------------------------------------------------------------------------------------	
  ** ¿A qué se debe el cambio tan brusco del jitter?
  ** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
  ** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
+------------------------------------------------------------------------------------------------------------
 
 
 14. En Telephony selecciona el menú VoIP calls. Verás que se lista la llamada de voz IP capturada en una ventana emergente. Selecciona esa llamada y pulsa el botón Graph.
  ** ¿Cuánto dura la conversación?
+ 	20,889seg
+ 	---------------------------------------------------------------
  ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
+ ------------------------------------------------------------------
+ 	
 
 
 15. Identifica la trama donde se finaliza la conversación.
  ** ¿Qué método SIP se utiliza?
+ 	BYE
  ** ¿En qué trama(s)?
+ 	924, 925, 927 y 933
+ -----------------------------------------------	
  ** ¿Por qué crees que se envía varias veces?
-
+------------------------------------------------
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
+ 	Para borrarse del servidor.
  ** ¿En qué trama sucede esto?
+ 	950 y 952
  ** ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
-
+	Se diferencian en el expires. La primera tiene un expires de 3600 y las ultimas de 0.
+	
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
