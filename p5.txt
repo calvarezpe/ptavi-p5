@@ -109,13 +109,13 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  	RTP: Para la transmision de multimedia a tiempo real
  	H-261: Codec para el video recomendado por la ITU
  ** ¿Cuál es el tamaño de paquete de los mismos?
- 	214 bytes, 26,75 bits, para los de RTP y variable para los de H261
+ 	214 bytes, 1712 bits, para los de RTP y variable para los de H261
  ** ¿Se utilizan bits de padding?
  	No
  ** ¿Cuál es la periodicidad de los paquetes que se envían?
- 	0,024138 segundos
+ 	0,160 segundos
  ** ¿Cuántos bits/segundo estamos enviando?
-	1108 bits/segundo
+	10700 bits/segundo
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
@@ -127,30 +127,36 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  	Ninguno
  ** ¿Cuál es el valor máximo del delta? ¿Y qué es lo que significa el valor de delta?
 	1290,48-44
+	La delta es la diferencia entre la llegada de un paquete con la llegada del paquete anterior 
  ** ¿Cuáles son los valores de jitter (medio y máximo)? ¿Qué quiere decir eso? ¿Estamos ante una conversación de calidad?
 	Video: mean 153,24 ms max 183,1 ms
  	Audio: mean 42,50 ms max 119,64 ms
-	El retardo. Se considera calidad con un jitter menor de 0'5seg, por lo tanto si
+	El retardo. No es de calidad porque el jitter varía mucho.
 
 13. Elige un paquete RTP de audio. Analiza el flujo de audio en Telephony -> RTP -> Stream Analysis.
  ** ¿Cuánto valen el delta y el jitter para el primer paquete que ha llegado?
  	Para el delta vale 0 y para el jitter tambien.
  ** ¿Podemos saber si éste es el primer paquete que nos han enviado?
+ 	Si porque los valores de la delta y jitter vale 0.
  ** Los valores de jitter son menores de 10ms hasta un paquete dado. ¿Cuál?
  	Hasta el 247
- ----------------------------------------------------------------------------------------------------------	
  ** ¿A qué se debe el cambio tan brusco del jitter?
- ** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
- ** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
-------------------------------------------------------------------------------------------------------------
+ 	Algo esta quitando ancho de banda.
+** ¿Es comparable este cambio con el tiempo desde la recepción del paquete anterior? ¿Por qué?
+	No, la delta aumenta mucho pero el jitter no aumenta tanto.
+** ¿Cuál es la dependencia entre el tiempo transcurrido desde el paquete anterior y el valor de jitter?
+	Cuando uno es mayor el otro tambien, pero no lo sabemos.
+
 
 
 14. En Telephony selecciona el menú VoIP calls. Verás que se lista la llamada de voz IP capturada en una ventana emergente. Selecciona esa llamada y pulsa el botón Graph.
  ** ¿Cuánto dura la conversación?
  	20,889seg
- 	---------------------------------------------------------------
  ** ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
- ------------------------------------------------------------------
+	h261: 43306582
+	g711a: BF4AFD37
+	Para audio y video.
+	No hay CSRCs.
  	
 
 
@@ -159,9 +165,8 @@ Se ha capturado una sesión SIP (archivo sip.cap.gz), que se puede abrir con Wir
  	BYE
  ** ¿En qué trama(s)?
  	924, 925, 927 y 933
- -----------------------------------------------	
  ** ¿Por qué crees que se envía varias veces?
-------------------------------------------------
+	Porque no recibe el 200OK y sigue enviandolo.
 
 16. Finalmente, se cierra la aplicación de VozIP.
  ** ¿Por qué aparece una instrucción SIP del tipo REGISTER?
@@ -184,16 +189,22 @@ Captura una sesión SIP de una conversación con el número SIP sip:9999@qxip.ne
 
 17. Observa las diferencias en el inicio de la conversación entre el entorno del laboratorio y el del ejercicio anterior:
  ** ¿Es necesario el uso de DNS y STUN? ¿Por qué?
+ 	STUN no, porque no nos encontramos dentro de un nat.
  ** ¿Son diferentes el registro y la descripción de la sesión?
-
+	No, son iguales.
 
 18. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
  ** ¿Cuántos flujos tenemos?
+ 	Tenemos dos flujos, de audio. G711
  ** ¿Cuál es su periodicidad?
+ 	160ms.
  ** ¿Cuánto es el valor máximo del delta y los valores medios y máximo del jitter?
+ 	Max delta = 24,23 ms 
+ 	Max jitter = 0,74 ms. Mean jitter = 0,30 ms.
  ** ¿Podrías reproducir la conversación desde Wireshark? ¿Cómo? Comprueba que poniendo un valor demasiado pequeño para el buffer de jitter, la conversación puede no tener la calidad necesaria.
+ 	Si. Telephony - VoIP - Player 
  ** ¿Sabrías decir qué tipo de servicio ofrece sip:9999@qxip.net?
-
+	Es un servicio para escuchar musica.
 
 
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
